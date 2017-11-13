@@ -1,36 +1,40 @@
 console.log('插件开始执行');
 
-let blockCount = 0;
+// let blockCount = 0;
 let $ = chrome
 
-chrome.storage.sync.get('blockCount', (item) => {
-  if (item.blockCount > 0) {
-    blockCount = item.blockCount
-  }
-})
+// chrome.storage.sync.get('blockCount', (item) => {
+//   if (item.blockCount > 0) {
+//     blockCount = item.blockCount
+//   }
+// })
 
-let timeLock = false;
+// let timeLock = false;
 
 function checkTabUrlAndJump(tab) {
   console.log('处理开始')
   let curTabId = tab.id
-  let curUrl = tab.url
-  if (curUrl.indexOf('hao123') >= 0) {
-    $.tabs.update(curTabId, {url: 'chrome://newtab'}, function () {
+  let curUrlStr = tab.url
+  let urlObj = new URL(curUrlStr)
+  let aliUrl = urlObj.searchParams.get('url') || ''
+  let isAliReg = /taobao|tmall/g
+  if (urlObj.hostname.indexOf('weixin') >= 0 && isAliReg.test(aliUrl) ) {
+
+    $.tabs.update(curTabId, {url: aliUrl}, function () {
       console.log('更新完毕');
-      if (!timeLock) {
-        timeLock = true
-        blockCount += 1
-        chrome.storage.sync.set({'blockCount': blockCount} , function () {
-          console.log('保存更新完毕')
-        })
-        chrome.browserAction.setBadgeText({
-          text: ''+blockCount
-        })
-        setTimeout(()=>{
-          timeLock = false
-        }, 3000)
-      }
+      // if (!timeLock) {
+        // timeLock = true
+        // blockCount += 1
+        // chrome.storage.sync.set({'blockCount': blockCount} , function () {
+        //   console.log('保存更新完毕')
+        // })
+        // chrome.browserAction.setBadgeText({
+        //   text: ''+blockCount
+        // })
+      //   setTimeout(()=>{
+      //     timeLock = false
+      //   }, 3000)
+      // }
     })
   }
 }
@@ -56,7 +60,7 @@ chrome.tabs.onUpdated.addListener(function (curTabId) {
 
 
 
-chrome.browserAction.setBadgeBackgroundColor({
-  color: '#dd2727'
-})
+// chrome.browserAction.setBadgeBackgroundColor({
+//   color: '#dd2727'
+// })
 

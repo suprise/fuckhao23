@@ -1,15 +1,20 @@
 {
   "manifest_version": 2,
-  "name": "fuckhao*23",
-  "version": "0.1",
-  "description": "自动屏蔽hao*23网址并打开新tab",
+  "name": "wxPasser",
+  "version": "0.2",
+  "description": "用于PC端与PC端通过微信分享天猫、淘宝页面的小工具",
   "author": "yuefengle",
   "permissions": ["tabs", "activeTab","storage"],
   "background": {
     "scripts": ["background.js"]
   },
+  "icons": {
+    "16":"Passer.png",
+    "48":"Passer.png",
+    "128":"Passer.png"
+  },
   "browser_action": {
-    "default_title": "自动屏蔽hao*23网址并打开新tab",
-    "default_popup": "popup.html"
+    "default_title": "点击微信中分享的天猫、淘宝页面链接，不会被微信屏蔽",
+    "default_icon" : "Passer.png"
   }
 }
